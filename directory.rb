@@ -1,15 +1,14 @@
+@students = []
 def input_students
   puts "Please enter the names of the students" 
   puts "To finish, just hit return twice"
-  students = [] 
   name = gets.chomp 
   
   while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, cohort: :november}
+    puts "Now we have #{@students.count} students"
     name = gets.chomp
   end
-  students
 end
 
 def puts_header
@@ -17,35 +16,45 @@ def puts_header
   puts "-------------"
 end
 
-def puts_names(names)
-  names.each { |name|
+def puts_students_list
+  @students.each { |name|
     puts "#{name[:name]} (#{name[:cohort]} cohort)"
   }
 end 
 
-def puts_footer(names)
-  puts "Overall, we have #{names.count} great students" 
+def puts_footer
+  puts "Overall, we have #{@students.count} great students" 
 end
 
 def interactive_menu
-  students = []
   loop do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-    selection = gets.chomp 
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      puts_header
-      puts_names(students)
-      puts_footer(students)
-    when "9"
-      Exit
-    else
-      puts "Please enter a number between 1 and 9"
-    end
+    print_menu
+    menu_options(gets.chomp) 
+  end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
+
+def show_students
+  puts_header
+  puts_students_list
+  puts_footer
+end
+
+def menu_options(selection)
+  case selection
+  when "1"
+    input_students
+  when "2"
+    show_students
+  when "9"
+    exit
+  else
+    puts "Please enter a number between 1 and 9"
   end
 end
 interactive_menu 
